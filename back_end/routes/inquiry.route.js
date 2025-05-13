@@ -10,7 +10,7 @@ router.post("/", authMiddleware, inquiryController.createInquiry);
 router.get("/", authMiddleware, adminOnly, inquiryController.getAllInquiries);
 
 // Route to get a specific inquiry by userId
-router.get("/:userId", authMiddleware, inquiryController.getUserInquiries);
+router.get("/:userId", authMiddleware, inquiryController.getInquiryById);
 
 module.exports = {
     router
