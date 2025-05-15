@@ -11,9 +11,8 @@ const getAllInquiries = async () => {
     return result;
 };
 
-const getInquiryById = async (inquiryId) => {
-    const result = await inquiryRepository.getInquiryById(inquiryId);
-    return result;
+const getInquiriesByUserId = async (userId) => {
+    return await inquiryRepository.getInquiriesByUserId(userId);
 };
 
 const addQuoteToInquiry = async (inquiryId, quote) => {
@@ -24,6 +23,6 @@ const addQuoteToInquiry = async (inquiryId, quote) => {
 module.exports = {
     createInquiry,
     getAllInquiries,
-    getInquiryById,
+    getInquiriesByUserId,
     addQuoteToInquiry
 };
