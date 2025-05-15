@@ -1,4 +1,3 @@
-// repositories/booking.repository.js
 const BookingModel = require("../models/booking.model");
 
 const createBooking = async (bookingData) => {
