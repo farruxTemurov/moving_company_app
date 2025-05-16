@@ -17,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
         console.log("Decoded Token:", decoded);
         req.user = decoded;        // Save decoded user info (email, role)
         req.role = decoded.role;
-        req.userId = decoded.id;  // assuming you include `id` in your token
+        req.userId = decoded.id;  
         next();
     } catch (err) {
         return res.status(401).json({ message: "Invalid or expired token", error: err.message });
