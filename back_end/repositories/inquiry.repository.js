@@ -8,12 +8,13 @@ const createInquiry = async (inquiryData) => {
 };
 
 const getAllInquiries = async () => {
-    const result = await InquiryModel.find().populate("userId");
+    // const result = await InquiryModel.find().populate("userId");
+    const result = await InquiryModel.find();
     return result;
 };
 
-const getInquiryById = async (inquiryId) => {
-    const result = await InquiryModel.findById(inquiryId);
+const getInquiriesByUserId = async (userId) => {
+    const result = await InquiryModel.find({ userId }).populate("userId");
     return result;
 };
 
@@ -29,6 +30,6 @@ const addQuote = async (inquiryId, quote) => {
 module.exports = {
     createInquiry,
     getAllInquiries,
-    getInquiryById,
+    getInquiriesByUserId,
     addQuote
 };
