@@ -3,7 +3,10 @@ const bookingService = require('../services/booking.service');
 
 const createBooking = async (req, res) => {
     try {
-        const booking = req.body;
+        const booking = {
+            ...req.body,
+            userId: req.user.id  // this line adds the missing userId
+        };
         const result = await bookingService.createBooking(booking);
         res.json({ msg: 'Booking created successfully', data: result });
     } catch (error) {
