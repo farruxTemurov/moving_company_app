@@ -12,6 +12,8 @@ router.get("/", authMiddleware, adminOnly, inquiryController.getAllInquiries);
 // Route to get a specific inquiry by userId
 router.get("/:userId", authMiddleware, inquiryController.getInquiriesByUserId);
 
+router.put('/:id/quote', authMiddleware, adminOnly, inquiryController.updateInquiryWithQuote);
+
 module.exports = {
     router
 };

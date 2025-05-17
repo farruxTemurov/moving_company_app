@@ -12,6 +12,9 @@ router.get("/", authMiddleware, adminOnly, bookingController.getAllBookings);
 // Route to get all bookings by user (for customers to view their own bookings)
 router.get("/:userId", authMiddleware, bookingController.getUserBookings);
 
+// Update booking status (admin only)
+router.put("/status/:id", authMiddleware, adminOnly, bookingController.updateBookingStatus);
+
 module.exports = {
     router
 };
