@@ -10,6 +10,13 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build / dist folders
+dist/
+dist-ssr/
+build/
 
 # OS-specific files
 .DS_Store
@@ -17,10 +24,15 @@ Thumbs.db
 
 # Editor folders/settings
 .vscode/
+!.vscode/extensions.json
 .idea/
 *.sublime-workspace
 *.sublime-project
 
-# Optional: build artifacts
-dist/
-build/
+# Miscellaneous
+*.local
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
