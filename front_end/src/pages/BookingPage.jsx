@@ -23,7 +23,7 @@ export default function BookingPage() {
         setError("");
         setSuccess("");
         try {
-            await axios.post("/api/bookings", form);
+            await axios.post("/bookings", form);
             setSuccess("Booking successful!");
             setForm({ fromAddress: "", toAddress: "", date: "", serviceType: "Standard" });
         } catch (err) {
