@@ -26,8 +26,13 @@ app.use("/api/bookings", bookingsRoute.router);
 // General error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: "Internal Server Error", error: err.message });
+
+    const statusCode = err.status || 500;
+    res.status(statusCode).json({
+        message: err.message || "Internal Server Error"
+    });
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
