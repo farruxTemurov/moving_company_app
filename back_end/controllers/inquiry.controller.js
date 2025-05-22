@@ -3,16 +3,27 @@ const inquiryService = require('../services/inquiry.service');
 
 const createInquiry = async (req, res) => {
     try {
-        console.log("Decoded User ID:", req.userId);
-        console.log("req.body:", req.body);
+        const { fromAddress, toAddress, movingDate, name, email, phone } = req.body;
+        const userId = req.userId;
+
+        if (!fromAddress || !toAddress || !movingDate) {
+            return res.status(400).json({ msg: 'From address, to address, and moving date are required' });
+        }
+
         const inquiry = {
-            ...req.body,
-            userId: req.userId  // assuming you store it in authMiddleware
+            userId,
+            source: fromAddress,
+            destination: toAddress,
+            date: new Date(movingDate),
+            details: `Name: ${name}, Email: ${email}, Phone: ${phone}`,
+            quote: 0 // or leave undefined if not needed now
         };
+
         const result = await inquiryService.createInquiry(inquiry);
-        res.json({ msg: 'Inquiry submitted successfully', data: result });
+        res.status(201).json({ msg: 'Inquiry submitted successfully', data: result });
     } catch (error) {
-        res.status(500).json({ msg: error.message });
+        console.error('Inquiry submission failed:', error);
+        res.status(500).json({ msg: 'Server error. Please try again later.' });
     }
 };
 
