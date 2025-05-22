@@ -1,8 +1,26 @@
+// src/pages/Dashboard.jsx
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import BookingPage from "./BookingPage";
 import InquiryForm from "./InquiryForm";
 import axios from "../utils/axiosInstance";
+import UserDataTable from "../components/UserDataTable";
+
+const parseDetails = (details) => {
+  const result = { name: "", email: "", phone: "" };
+  if (!details) return result;
+
+  details.split(",").forEach((part) => {
+    const [key, value] = part.split(":").map((s) => s.trim());
+    if (key && value) {
+      if (key.toLowerCase() === "name") result.name = value;
+      else if (key.toLowerCase() === "email") result.email = value;
+      else if (key.toLowerCase() === "phone") result.phone = value;
+    }
+  });
+
+  return result;
+};
 
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -18,8 +36,8 @@ const Dashboard = () => {
       const fetchData = async () => {
         try {
           const [inquiryRes, bookingRes] = await Promise.all([
-            axios.get("/api/inquiries"),
-            axios.get("/api/bookings"),
+            axios.get("/inquiries"),
+            axios.get("/bookings"),
           ]);
           setInquiries(inquiryRes.data);
           setBookings(bookingRes.data);
@@ -32,7 +50,6 @@ const Dashboard = () => {
 
       fetchData();
     } else {
-      // Non-admins don’t need to wait for inquiries/bookings
       setLoading(false);
     }
   }, [isAdmin]);
@@ -77,16 +94,14 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {inquiries.map((inq) => (
-                    <tr key={inq.id}>
-                      <td className="border px-2 py-1">{inq.name}</td>
-                      <td className="border px-2 py-1">{inq.email}</td>
-                      <td className="border px-2 py-1">{inq.phone}</td>
-                      <td className="border px-2 py-1">{inq.fromAddress}</td>
-                      <td className="border px-2 py-1">{inq.toAddress}</td>
-                      <td className="border px-2 py-1">{inq.movingDate}</td>
-                    </tr>
-                  ))}
+                  {inquiries.map((inq) => {
+                    const { name, email, phone } = parseDetails(inq.details);
+                    return (
+                      <tr key={inq._id}>
+                        <td className="border px-2 py-1">{name}</td><td className="border px-2 py-1">{email}</td><td className="border px-2 py-1">{phone}</td><td className="border px-2 py-1">{inq.source || inq.fromAddress}</td><td className="border px-2 py-1">{inq.destination || inq.toAddress}</td><td className="border px-2 py-1">{inq.date ? new Date(inq.date).toLocaleDateString() : inq.movingDate}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             )}
@@ -103,18 +118,15 @@ const Dashboard = () => {
                     <th className="border px-2 py-1">From</th>
                     <th className="border px-2 py-1">To</th>
                     <th className="border px-2 py-1">Date</th>
-                    <th className="border px-2 py-1">Service Type</th>
                   </tr>
                 </thead>
                 <tbody>
                   {bookings.map((bk) => (
-                    <tr key={bk.id}>
-                      <td className="border px-2 py-1">{bk.fromAddress}</td>
-                      <td className="border px-2 py-1">{bk.toAddress}</td>
-                      <td className="border px-2 py-1">{bk.date}</td>
-                      <td className="border px-2 py-1">{bk.serviceType}</td>
+                    <tr key={bk._id}>
+                      <td className="border px-2 py-1">{bk.source}</td><td className="border px-2 py-1">{bk.destination}</td><td className="border px-2 py-1">{bk.date ? new Date(bk.date).toLocaleDateString() : ""}</td>
                     </tr>
                   ))}
+
                 </tbody>
               </table>
             )}
@@ -125,6 +137,7 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold">User Dashboard</h2>
           <BookingPage />
           <InquiryForm />
+          <UserDataTable />
         </>
       )}
     </div>

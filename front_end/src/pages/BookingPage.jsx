@@ -4,8 +4,8 @@ import axios from "../utils/axiosInstance";
 
 export default function BookingPage() {
     const [form, setForm] = useState({
-        fromAddress: "",
-        toAddress: "",
+        source: "",        // changed from fromAddress
+        destination: "",   // changed from toAddress
         date: "",
         serviceType: "Standard",
     });
@@ -13,11 +13,11 @@ export default function BookingPage() {
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
@@ -25,7 +25,12 @@ export default function BookingPage() {
         try {
             await axios.post("/bookings", form);
             setSuccess("Booking successful!");
-            setForm({ fromAddress: "", toAddress: "", date: "", serviceType: "Standard" });
+            setForm({
+                source: "",
+                destination: "",
+                date: "",
+                serviceType: "Standard",
+            });
         } catch (err) {
             setError(err.response?.data?.message || "Booking failed");
         }
@@ -39,19 +44,19 @@ export default function BookingPage() {
             {success && <p className="text-green-600 mb-4">{success}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input
-                    name="fromAddress"
+                    name="source"               // changed here
                     type="text"
                     placeholder="From Address"
-                    value={form.fromAddress}
+                    value={form.source}         // changed here
                     onChange={handleChange}
                     className="input input-bordered w-full"
                     required
                 />
                 <input
-                    name="toAddress"
+                    name="destination"          // changed here
                     type="text"
                     placeholder="To Address"
-                    value={form.toAddress}
+                    value={form.destination}    // changed here
                     onChange={handleChange}
                     className="input input-bordered w-full"
                     required
@@ -59,6 +64,7 @@ export default function BookingPage() {
                 <input
                     name="date"
                     type="date"
+                    placeholder="Moving Date"
                     value={form.date}
                     onChange={handleChange}
                     className="input input-bordered w-full"
@@ -71,9 +77,14 @@ export default function BookingPage() {
                     className="select select-bordered w-full"
                 >
                     <option value="Standard">Standard</option>
+                    <option value="Express">Express</option>
                     <option value="Premium">Premium</option>
                 </select>
-                <button type="submit" disabled={loading} className="btn btn-primary w-full">
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn btn-primary w-full"
+                >
                     {loading ? "Booking..." : "Book Now"}
                 </button>
             </form>

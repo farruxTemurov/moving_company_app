@@ -1,12 +1,7 @@
 import { createContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode"; // 👈 Correct named import
 
 export const AuthContext = createContext();
-
-const decodeToken = async (token) => {
-    const jwt_decode = await import("jwt-decode");
-    // jwt_decode.default contains the actual function
-    return jwt_decode.default(token);
-};
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -14,24 +9,32 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            decodeToken(token).then(decoded => {
+            try {
+                const decoded = jwtDecode(token); // 👈 Use named import here
                 if (decoded.exp * 1000 > Date.now()) {
-                    setUser({ id: decoded.id, email: decoded.email, role: decoded.role });
+                    setUser({
+                        id: decoded.id,
+                        email: decoded.email,
+                        role: decoded.role,
+                    });
                 } else {
                     localStorage.removeItem("token");
                 }
-            }).catch(() => localStorage.removeItem("token"));
+            } catch {
+                localStorage.removeItem("token");
+            }
         }
     }, []);
 
-    const login = async (token) => {
+    const login = (token) => {
         localStorage.setItem("token", token);
         try {
-            const decoded = await decodeToken(token);
-            console.log("Setting user with decoded token", decoded);
-            const newUser = { id: decoded.id, email: decoded.email, role: decoded.role };
-            console.log("Decoded user in login():", newUser); 
-            setUser(newUser);
+            const decoded = jwtDecode(token); // 👈 Same here
+            setUser({
+                id: decoded.id,
+                email: decoded.email,
+                role: decoded.role,
+            });
         } catch {
             setUser(null);
         }
