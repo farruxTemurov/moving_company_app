@@ -1,4 +1,5 @@
 // repositories/inquiry.repository.js
+const mongoose = require("mongoose");
 const InquiryModel = require("../models/inquiry.model");
 
 const createInquiry = async (inquiryData) => {
@@ -14,7 +15,8 @@ const getAllInquiries = async () => {
 };
 
 const getInquiriesByUserId = async (userId) => {
-    const result = await InquiryModel.find({ userId }).populate("userId");
+    const objectId = new mongoose.Types.ObjectId(userId);
+    const result = await InquiryModel.find({ userId: objectId }).populate("userId");
     return result;
 };
 
