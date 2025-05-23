@@ -1,4 +1,3 @@
-// src/components/UserDataTable.jsx
 import { useContext, useEffect, useState } from "react";
 import axios from "../utils/axiosInstance";
 import { AuthContext } from "../context/AuthContext";
@@ -19,6 +18,7 @@ const UserDataTable = () => {
                 setBookings(bookingRes.data);
                 setInquiries(inquiryRes.data);
             } catch (err) {
+                console.error(err);
                 setError("Failed to fetch your data.");
             }
         };
@@ -49,7 +49,9 @@ const UserDataTable = () => {
                                 <tr key={inq._id}>
                                     <td className="border px-2 py-1">{inq.source}</td>
                                     <td className="border px-2 py-1">{inq.destination}</td>
-                                    <td className="border px-2 py-1">{inq.date ? new Date(inq.date).toLocaleDateString() : ""}</td>
+                                    <td className="border px-2 py-1">
+                                        {inq.date ? new Date(inq.date).toLocaleDateString() : ""}
+                                    </td>
                                     <td className="border px-2 py-1">{inq.quote || "Pending"}</td>
                                 </tr>
                             ))}
@@ -77,7 +79,9 @@ const UserDataTable = () => {
                                 <tr key={bk._id}>
                                     <td className="border px-2 py-1">{bk.source}</td>
                                     <td className="border px-2 py-1">{bk.destination}</td>
-                                    <td className="border px-2 py-1">{bk.date ? new Date(bk.date).toLocaleDateString() : ""}</td>
+                                    <td className="border px-2 py-1">
+                                        {bk.date ? new Date(bk.date).toLocaleDateString() : ""}
+                                    </td>
                                     <td className="border px-2 py-1">{bk.status || "Pending"}</td>
                                 </tr>
                             ))}
