@@ -2,21 +2,22 @@ const bookingService = require('../services/booking.service');
 
 const createBooking = async (req, res) => {
     try {
-        const { fromAddress, toAddress, date } = req.body;
+        const { source, destination, date } = req.body;
         const userId = req.user.id;
 
         // Validate required fields
-        if (!fromAddress || !toAddress || !date) {
-            return res.status(400).json({ msg: 'From Address, To Address, and Date are required' });
+        if (!source || !destination || !date) {
+            return res.status(400).json({ msg: 'Source, Destination, and Date are required' });
         }
 
-        // Construct the booking data according to your model
+        // Prepare booking data as per your model
         const booking = {
             userId,
-            source: fromAddress,
-            destination: toAddress,
+            source,
+            destination,
             date: new Date(date),
-            amount: 0 // You can calculate actual amount later if needed
+            amount: 0, // Placeholder, you can update it later based on distance etc.
+            status: "Pending"
         };
 
         const result = await bookingService.createBooking(booking);
