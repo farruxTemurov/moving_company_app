@@ -3,20 +3,22 @@ const inquiryService = require('../services/inquiry.service');
 
 const createInquiry = async (req, res) => {
     try {
-        const { fromAddress, toAddress, movingDate, name, email, phone } = req.body;
-        const userId = req.userId;
+        const { source, destination, date, name, email, phone } = req.body;
+        const userId = req.user.id; // assuming your auth middleware adds req.user
 
-        if (!fromAddress || !toAddress || !movingDate) {
-            return res.status(400).json({ msg: 'From address, to address, and moving date are required' });
+        // Validate required fields
+        if (!source || !destination || !date) {
+            return res.status(400).json({ msg: 'Source, destination, and date are required' });
         }
 
+        // Construct inquiry object to match schema
         const inquiry = {
             userId,
-            source: fromAddress,
-            destination: toAddress,
-            date: new Date(movingDate),
+            source,
+            destination,
+            date: new Date(date),
             details: `Name: ${name}, Email: ${email}, Phone: ${phone}`,
-            quote: 0 // or leave undefined if not needed now
+            quote: 0
         };
 
         const result = await inquiryService.createInquiry(inquiry);
