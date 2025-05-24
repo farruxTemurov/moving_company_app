@@ -1,4 +1,5 @@
 const BookingModel = require("../models/booking.model");
+const mongoose = require('mongoose');
 
 const createBooking = async (bookingData) => {
     const newBooking = new BookingModel(bookingData);
@@ -12,7 +13,7 @@ const getAllBookings = async () => {
 };
 
 const getBookingsByUserId = async (userId) => {
-    const result = await BookingModel.find({ userId: userId });
+    const result = await BookingModel.find({ userId: mongoose.Types.ObjectId(userId) });
     return result;
 };
 
