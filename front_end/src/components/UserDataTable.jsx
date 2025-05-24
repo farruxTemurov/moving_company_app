@@ -12,8 +12,8 @@ const UserDataTable = () => {
         const fetchUserData = async () => {
             try {
                 const [bookingRes, inquiryRes] = await Promise.all([
-                    axios.get(`/bookings/${user._id}`),
-                    axios.get(`/inquiries/${user._id}`),
+                    axios.get(`/bookings/my`),
+                    axios.get(`/inquiries/my`),
                 ]);
                 setBookings(bookingRes.data);
                 setInquiries(inquiryRes.data);
