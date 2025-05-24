@@ -1,4 +1,5 @@
 const bookingService = require('../services/booking.service');
+const mongoose = require('mongoose');
 
 const createBooking = async (req, res) => {
     try {
@@ -56,13 +57,23 @@ const updateBookingStatus = async (req, res) => {
             return res.status(400).json({ msg: 'Status is required' });
         }
 
+        // ✅ Validate bookingId format
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'Invalid booking ID' });
+        }
+
         const result = await bookingService.updateBookingStatus(id, status);
+
+        // ✅ Handle case where booking is not found
+        if (!result) {
+            return res.status(404).json({ msg: 'Booking not found' });
+        }
+
         res.json({ msg: 'Booking status updated', data: result });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
 };
-
 module.exports = {
     createBooking,
     getAllBookings,
