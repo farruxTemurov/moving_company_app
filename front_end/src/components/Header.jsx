@@ -12,16 +12,18 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-base-200 p-4 flex justify-between items-center shadow">
-      <Link to="/" className="text-xl font-bold">
+    <header className="bg-white p-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+      <Link to="/" className="text-2xl font-bold text-sky-700">
         Packers & Movers
       </Link>
 
-      <nav className="space-x-4">
+      <nav className="space-x-6">
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? "font-bold underline" : "hover:underline"
+            isActive
+              ? "font-semibold underline text-sky-700"
+              : "hover:underline hover:text-sky-600 text-gray-700"
           }
         >
           Home
@@ -32,7 +34,9 @@ const Header = () => {
             <NavLink
               to="/login"
               className={({ isActive }) =>
-                isActive ? "font-bold underline" : "hover:underline"
+                isActive
+                  ? "font-semibold underline text-sky-700"
+                  : "hover:underline hover:text-sky-600 text-gray-700"
               }
             >
               Login
@@ -41,7 +45,9 @@ const Header = () => {
             <NavLink
               to="/register"
               className={({ isActive }) =>
-                isActive ? "font-bold underline" : "hover:underline"
+                isActive
+                  ? "font-semibold underline text-sky-700"
+                  : "hover:underline hover:text-sky-600 text-gray-700"
               }
             >
               Register
@@ -54,7 +60,9 @@ const Header = () => {
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                isActive ? "font-bold underline" : "hover:underline"
+                isActive
+                  ? "font-semibold underline text-sky-700"
+                  : "hover:underline hover:text-sky-600 text-gray-700"
               }
             >
               Dashboard
@@ -62,7 +70,7 @@ const Header = () => {
 
             <button
               onClick={handleLogout}
-              className="btn btn-sm btn-error ml-4"
+              className="btn btn-sm btn-outline btn-sky ml-4"
               type="button"
             >
               Logout

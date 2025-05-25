@@ -32,7 +32,6 @@ export default function Register() {
 
       if (err.response) {
         if (err.response.status === 409) {
-          // Email already exists
           setError(err.response.data.msg || "Email already exists.");
         } else {
           setError(err.response.data.msg || "Server error occurred.");
@@ -46,8 +45,8 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow bg-white">
+      <h2 className="text-2xl mb-4 font-semibold text-indigo-700">Register</h2>
       {error && <p className="text-red-600 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -56,7 +55,7 @@ export default function Register() {
           placeholder="Name"
           value={form.name}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           required
         />
         <input
@@ -65,7 +64,7 @@ export default function Register() {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           required
         />
         <input
@@ -74,10 +73,15 @@ export default function Register() {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           required
         />
-        <button type="submit" disabled={loading} className="btn btn-primary w-full">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md mx-auto block"
+          style={{ borderRadius: "0.5rem" }}
+        >
           {loading ? "Registering..." : "Register"}
         </button>
       </form>

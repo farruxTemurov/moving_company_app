@@ -1,4 +1,3 @@
-// src/pages/InquiryForm.jsx
 import { useState } from "react";
 import axios from "../utils/axiosInstance";
 
@@ -7,9 +6,9 @@ export default function InquiryForm() {
         name: "",
         email: "",
         phone: "",
-        fromAddress: "",
-        toAddress: "",
-        movingDate: "",
+        source: "",
+        destination: "",
+        date: "",
     });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -24,6 +23,7 @@ export default function InquiryForm() {
         setLoading(true);
         setError("");
         setSuccess("");
+
         try {
             await axios.post("/inquiries", form);
             setSuccess("Inquiry submitted successfully!");
@@ -31,29 +31,32 @@ export default function InquiryForm() {
                 name: "",
                 email: "",
                 phone: "",
-                fromAddress: "",
-                toAddress: "",
-                movingDate: "",
+                source: "",
+                destination: "",
+                date: "",
             });
         } catch (err) {
-            setError(err.response?.data?.message || "Failed to submit inquiry");
+            setError(err.response?.data?.msg || "Failed to submit inquiry");
         }
+
         setLoading(false);
     };
 
     return (
-        <div className="max-w-lg mx-auto p-6 shadow-md rounded-md">
-            <h2 className="text-2xl font-bold mb-4">Submit Your Moving Inquiry</h2>
+        <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
+            <h2 className="text-3xl font-semibold mb-6 text-indigo-600">
+                Submit Your Moving Inquiry
+            </h2>
             {error && <p className="text-red-600 mb-4">{error}</p>}
             {success && <p className="text-green-600 mb-4">{success}</p>}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
                 <input
                     name="name"
                     type="text"
                     placeholder="Full Name"
                     value={form.name}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
+                    className="input input-bordered border border-gray-400 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
                     required
                 />
                 <input
@@ -62,7 +65,7 @@ export default function InquiryForm() {
                     placeholder="Email"
                     value={form.email}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
+                    className="input input-bordered border border-gray-400 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
                     required
                 />
                 <input
@@ -71,40 +74,40 @@ export default function InquiryForm() {
                     placeholder="Phone Number"
                     value={form.phone}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
+                    className="input input-bordered border border-gray-400 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
                     required
                 />
                 <input
-                    name="fromAddress"
+                    name="source"
                     type="text"
                     placeholder="From Address"
-                    value={form.fromAddress}
+                    value={form.source}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
+                    className="input input-bordered border border-gray-400 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
                     required
                 />
                 <input
-                    name="toAddress"
+                    name="destination"
                     type="text"
                     placeholder="To Address"
-                    value={form.toAddress}
+                    value={form.destination}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
+                    className="input input-bordered border border-gray-400 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
                     required
                 />
                 <input
-                    name="movingDate"
+                    name="date"
                     type="date"
                     placeholder="Moving Date"
-                    value={form.movingDate}
+                    value={form.date}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
+                    className="input input-bordered border border-gray-400 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
                     required
                 />
                 <button
                     type="submit"
                     disabled={loading}
-                    className="btn btn-primary w-full"
+                    className="btn bg-indigo-600 hover:bg-indigo-700 text-white w-full transition duration-300"
                 >
                     {loading ? "Submitting..." : "Submit Inquiry"}
                 </button>

@@ -3,13 +3,22 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">Welcome to Packers & Movers</h1>
-      <p className="mb-6">We help you move safely and quickly.</p>
-      <div className="space-x-4">
-        <Link to="/login" className="btn btn-primary">Login</Link>
-        <Link to="/register" className="btn btn-secondary">Register</Link>
+    <div className="max-w-4xl mx-auto p-10 bg-white rounded-lg shadow-lg text-center">
+      <h1 className="text-4xl font-extrabold mb-6 text-indigo-600">
+        Welcome to Packers & Movers
+      </h1>
+      <p className="mb-8 text-lg text-gray-700">
+        We help you move safely and quickly.
+      </p>
+      <div className="space-x-6">
+        <Link to="/login" className="btn bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg transition">
+          Login
+        </Link>
+        <Link to="/register" className="btn bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg transition">
+          Register
+        </Link>
       </div>
     </div>
   );
 }
+

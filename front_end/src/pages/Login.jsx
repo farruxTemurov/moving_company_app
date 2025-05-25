@@ -1,90 +1,10 @@
-// import { useState, useContext, useEffect } from "react";
-// import axios from "axios";
-// import { AuthContext } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
-
-// const Login = () => {
-//     const { login, user } = useContext(AuthContext);
-//     const navigate = useNavigate();
-
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [error, setError] = useState("");
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         setError("");
-
-//         try {
-//             const res = await axios.post(
-//                 import.meta.env.VITE_API_BASE_URL + "/users/signIn",
-//                 { email, password }
-//             );
-
-//             const token = res.data.token;
-//             console.log("Response from backend:", res.data);
-
-//             if (token) {
-//                 login(token); // updates user state
-//             } else {
-//                 setError("Invalid login response");
-//             }
-//         } catch (err) {
-//             console.error("Login error full object:", err);
-//             setError(err.response?.data?.message || "Login failed");
-//         }
-//     };
-
-//     useEffect(() => {
-//         if (user) {
-//             console.log("User set in context, navigating to dashboard...");
-//             navigate("/dashboard");
-//         }
-//     }, [user, navigate]);
-
-//     return (
-//         <div className="login-container max-w-md mx-auto mt-10 p-6 border rounded shadow">
-//             <h2 className="text-2xl mb-4">Login</h2>
-//             {error && <p className="text-red-600 mb-2">{error}</p>}
-//             <form onSubmit={handleSubmit} className="space-y-4">
-//                 <div>
-//                     <label className="block mb-1" htmlFor="email">Email</label>
-//                     <input
-//                         id="email"
-//                         type="email"
-//                         required
-//                         value={email}
-//                         onChange={(e) => setEmail(e.target.value)}
-//                         className="input input-bordered w-full"
-//                     />
-//                 </div>
-//                 <div>
-//                     <label className="block mb-1" htmlFor="password">Password</label>
-//                     <input
-//                         id="password"
-//                         type="password"
-//                         required
-//                         value={password}
-//                         onChange={(e) => setPassword(e.target.value)}
-//                         className="input input-bordered w-full"
-//                     />
-//                 </div>
-//                 <button type="submit" className="btn btn-primary w-full">
-//                     Login
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default Login;
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // ⬅️ Required to call backend
+import axios from "axios";
 
 const Login = () => {
-  const { login, user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -101,33 +21,29 @@ const Login = () => {
       });
 
       const token = res.data.token;
-      login(token); // ⬅️ This updates the context (user info available now)
+      if (!token) throw new Error("No token received");
 
+      login(token); // update context user state
+
+      // Decode token to get user role (basic decoding)
       const decoded = JSON.parse(atob(token.split('.')[1]));
       const role = decoded.role;
 
-      // Wait a moment for context to update
-      setTimeout(() => {
-        if (role === "admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/dashboard");
-        }
-      }, 100);
-
+      // Navigate based on role (here both go to /dashboard, adjust if needed)
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h2 className="text-2xl mb-4">Login</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow bg-white">
+      <h2 className="text-2xl mb-4 font-semibold text-indigo-700">Login</h2>
       <form onSubmit={handleLogin} className="space-y-4">
         <input
           type="email"
           placeholder="Email"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -135,16 +51,21 @@ const Login = () => {
         <input
           type="password"
           placeholder="Password"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="btn btn-primary w-full">
+        <button
+          type="submit"
+          className="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md mx-auto block"
+          style={{ borderRadius: "0.5rem" }} 
+        >
           Login
         </button>
-        {error && <p className="text-red-500">{error}</p>}
+
       </form>
+      {error && <p className="mt-4 text-red-600 font-medium">{error}</p>}
     </div>
   );
 };

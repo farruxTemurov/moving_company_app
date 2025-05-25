@@ -4,7 +4,6 @@ import { AuthContext } from "../context/AuthContext";
 import BookingPage from "./BookingPage";
 import InquiryForm from "./InquiryForm";
 import axios from "../utils/axiosInstance";
-import UserDataTable from "../components/UserDataTable";
 
 const parseDetails = (details) => {
   const result = { name: "", email: "", phone: "" };
@@ -23,7 +22,7 @@ const parseDetails = (details) => {
 };
 
 const Dashboard = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [inquiries, setInquiries] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,87 +56,115 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="p-6 text-center">
-        <p className="text-lg">Loading dashboard...</p>
+        <p className="text-lg text-blue-600 font-semibold animate-pulse">
+          Loading dashboard...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-semibold">Welcome, {user?.email}</h1>
-        <button onClick={logout} className="btn btn-secondary">
-          Logout
-        </button>
+        <h1 className="text-4xl font-extrabold text-blue-600">
+          Welcome, <span className="text-green-500">{user?.email}</span>
+        </h1>
       </div>
 
       {isAdmin ? (
         <>
-          <h2 className="text-2xl font-bold">Admin Dashboard</h2>
+          <h2 className="text-3xl font-bold text-purple-600">Admin Dashboard</h2>
 
-          {error && <p className="text-red-600">{error}</p>}
+          {error && (
+            <p className="text-red-600 bg-red-100 p-3 rounded shadow-sm">{error}</p>
+          )}
 
-          <section>
-            <h3 className="text-xl font-medium mb-2">Customer Inquiries</h3>
+          <section className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-2xl font-semibold mb-4 border-b-2 border-blue-300 pb-2">
+              Customer Inquiries
+            </h3>
             {inquiries.length === 0 ? (
-              <p>No inquiries found.</p>
+              <p className="text-gray-500 italic">No inquiries found.</p>
             ) : (
-              <table className="table-auto w-full border">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="border px-2 py-1">Name</th>
-                    <th className="border px-2 py-1">Email</th>
-                    <th className="border px-2 py-1">Phone</th>
-                    <th className="border px-2 py-1">From</th>
-                    <th className="border px-2 py-1">To</th>
-                    <th className="border px-2 py-1">Moving Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {inquiries.map((inq) => {
-                    const { name, email, phone } = parseDetails(inq.details);
-                    return (
-                      <tr key={inq._id}>
-                        <td className="border px-2 py-1">{name}</td><td className="border px-2 py-1">{email}</td><td className="border px-2 py-1">{phone}</td><td className="border px-2 py-1">{inq.source || inq.fromAddress}</td><td className="border px-2 py-1">{inq.destination || inq.toAddress}</td><td className="border px-2 py-1">{inq.date ? new Date(inq.date).toLocaleDateString() : inq.movingDate}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border-collapse border border-gray-300 rounded-lg">
+                  <thead className="bg-gradient-to-r from-blue-400 to-purple-500 text-white">
+                    <tr>
+                      <th className="border px-4 py-3">Name</th>
+                      <th className="border px-4 py-3">Email</th>
+                      <th className="border px-4 py-3">Phone</th>
+                      <th className="border px-4 py-3">From</th>
+                      <th className="border px-4 py-3">To</th>
+                      <th className="border px-4 py-3">Moving Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {inquiries.map((inq) => {
+                      const { name, email, phone } = parseDetails(inq.details);
+                      return (
+                        <tr
+                          key={inq._id}
+                          className="even:bg-gray-100 hover:bg-green-50 transition-colors"
+                        >
+                          <td className="border px-4 py-2">{name}</td>
+                          <td className="border px-4 py-2">{email}</td>
+                          <td className="border px-4 py-2">{phone}</td>
+                          <td className="border px-4 py-2">{inq.source || inq.fromAddress}</td>
+                          <td className="border px-4 py-2">{inq.destination || inq.toAddress}</td>
+                          <td className="border px-4 py-2">
+                            {inq.date ? new Date(inq.date).toLocaleDateString() : inq.movingDate}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
 
-          <section>
-            <h3 className="text-xl font-medium mt-6 mb-2">Customer Bookings</h3>
+          <section className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-2xl font-semibold mb-4 border-b-2 border-green-400 pb-2">
+              Customer Bookings
+            </h3>
             {bookings.length === 0 ? (
-              <p>No bookings found.</p>
+              <p className="text-gray-500 italic">No bookings found.</p>
             ) : (
-              <table className="table-auto w-full border">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="border px-2 py-1">From</th>
-                    <th className="border px-2 py-1">To</th>
-                    <th className="border px-2 py-1">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.map((bk) => (
-                    <tr key={bk._id}>
-                      <td className="border px-2 py-1">{bk.source}</td><td className="border px-2 py-1">{bk.destination}</td><td className="border px-2 py-1">{bk.date ? new Date(bk.date).toLocaleDateString() : ""}</td>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border-collapse border border-gray-300 rounded-lg">
+                  <thead className="bg-gradient-to-r from-green-400 to-blue-500 text-white">
+                    <tr>
+                      <th className="border px-4 py-3">From</th>
+                      <th className="border px-4 py-3">To</th>
+                      <th className="border px-4 py-3">Date</th>
                     </tr>
-                  ))}
-
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {bookings.map((bk) => (
+                      <tr
+                        key={bk._id}
+                        className="even:bg-gray-100 hover:bg-purple-50 transition-colors"
+                      >
+                        <td className="border px-4 py-2">{bk.source}</td>
+                        <td className="border px-4 py-2">{bk.destination}</td>
+                        <td className="border px-4 py-2">
+                          {bk.date ? new Date(bk.date).toLocaleDateString() : ""}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
         </>
       ) : (
         <>
-          <h2 className="text-2xl font-bold">User Dashboard</h2>
-          <BookingPage />
-          <InquiryForm />
-          <UserDataTable />
+          <h2 className="text-3xl font-bold text-green-600 mb-6">User Dashboard</h2>
+          <div className="space-y-8">
+            <BookingPage />
+            <InquiryForm />
+          </div>
         </>
       )}
     </div>
