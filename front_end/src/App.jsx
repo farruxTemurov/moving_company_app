@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -8,6 +10,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import BookingPage from "./pages/BookingPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 function App() {
   return (
@@ -41,6 +44,7 @@ function App() {
       </main>
 
       <Footer />
+      <ToastContainer position="top-right" autoClose={3000} />
     </Router>
   );
 }
