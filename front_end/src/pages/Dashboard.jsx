@@ -1,4 +1,3 @@
-// src/pages/Dashboard.jsx
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import BookingPage from "./BookingPage";
