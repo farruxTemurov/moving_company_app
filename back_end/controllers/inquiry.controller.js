@@ -1,10 +1,9 @@
-// controllers/inquiryController.js
 const inquiryService = require('../services/inquiry.service');
 
 const createInquiry = async (req, res) => {
     try {
         const { source, destination, date, name, email, phone } = req.body;
-        const userId = req.user.id; // assuming your auth middleware adds req.user
+        const userId = req.user.id; 
 
         // Validate required fields
         if (!source || !destination || !date) {
