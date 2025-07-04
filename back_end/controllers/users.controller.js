@@ -1,14 +1,5 @@
 let userService = require('../services/users.service');
 
-// let signUp = async (req, res) => {
-//     try {
-//         let user = req.body;
-//         let result = await userService.signUp(user);
-//         res.json({ "msg": "Account created successfully" })
-//     } catch (error) {
-//         res.json({ "msg": error.message })
-//     }
-// }
 let signUp = async (req, res) => {
     try {
         let user = req.body;
