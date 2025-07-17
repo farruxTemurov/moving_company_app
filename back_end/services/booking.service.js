@@ -1,4 +1,3 @@
-// services/booking.service.js
 const bookingRepository = require('../repositories/booking.repository');
 
 const createBooking = async (bookingData) => {
