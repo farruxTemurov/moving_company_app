@@ -14,7 +14,7 @@ export default function Home() {
         <Link to="/login" className="btn bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg transition">
           Login
         </Link>
-        <Link to="/register" className="btn bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg transition">
+        <Link to="/register" className="btn bg-purple-800 hover:bg-purple-900 text-white font-bold px-8 py-3 rounded-lg transition">
           Register
         </Link>
       </div>
