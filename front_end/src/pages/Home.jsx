@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="max-w-4xl mx-auto p-10 bg-white rounded-lg shadow-lg text-center">
+    <div className="max-w-4xl mx-auto p-10  mt-10 bg-white rounded-lg shadow-lg text-center">
       <h1 className="text-4xl font-extrabold mb-6 text-indigo-600">
         Welcome to Packers & Movers
       </h1>

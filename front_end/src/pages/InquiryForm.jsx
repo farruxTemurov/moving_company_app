@@ -47,8 +47,8 @@ export default function InquiryForm() {
             <h2 className="text-3xl font-semibold mb-6 text-indigo-600">
                 Submit Your Moving Inquiry
             </h2>
-            {error && <p className="text-red-600 mb-4">{error}</p>}
-            {success && <p className="text-green-600 mb-4">{success}</p>}
+            {error && <p className="bg-red-100 text-red-700 border border-red-300 rounded-md p-3 mb-6">{error}</p>}
+            {success && <p className="bg-green-100 text-green-700 border border-green-300 rounded-md p-3 mb-6">{success}</p>}
             <form onSubmit={handleSubmit} className="space-y-5">
                 <input
                     name="name"
