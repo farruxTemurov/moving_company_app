@@ -1,4 +1,3 @@
-// repositories/inquiry.repository.js
 const mongoose = require("mongoose");
 const InquiryModel = require("../models/inquiry.model");
 

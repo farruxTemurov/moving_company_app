@@ -1,4 +1,3 @@
-// services/inquiry.service.js
 const inquiryRepository = require('../repositories/inquiry.repository');
 
 const createInquiry = async (inquiryData) => {

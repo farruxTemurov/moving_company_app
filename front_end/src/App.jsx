@@ -17,7 +17,7 @@ function App() {
     <Router>
       <Header />
 
-      <main className="min-h-[calc(100vh-8rem)] p-4"> {/* optional styling */}
+      <main className="min-h-[calc(100vh-8rem)] p-4"> 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

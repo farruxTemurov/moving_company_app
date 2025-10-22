@@ -1,4 +1,3 @@
-// src/pages/BookingPage.jsx
 import { useState } from "react";
 import axios from "../utils/axiosInstance";
 
