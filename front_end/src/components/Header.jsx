@@ -7,8 +7,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();             // ✅ this handles clearing token + resetting user
-    navigate("/login");   // ✅ redirect after logout
+    logout();             // this handles clearing token + resetting user
+    navigate("/login");   // redirect after logout
   };
 
   return (
